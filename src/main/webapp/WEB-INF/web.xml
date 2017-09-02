@@ -9,6 +9,17 @@
     <servlet-name>HelloAppEngine</servlet-name>
     <servlet-class>org.julianyang.spotifyAssist.HelloAppEngine</servlet-class>
   </servlet>
+  <filter>
+    <filter-name>guiceFilter</filter-name>
+    <filter-class>com.google.inject.servlet.GuiceFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>guiceFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <listener>
+    <listener-class>org.julianyang.spotifyAssist.config.guice.SpotifyAssistGuiceServletContextListener</listener-class>
+  </listener>
   <servlet-mapping>
     <servlet-name>HelloAppEngine</servlet-name>
     <url-pattern>/hello</url-pattern>
