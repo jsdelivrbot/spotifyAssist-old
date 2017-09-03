@@ -1,10 +1,8 @@
 package org.julianyang.spotifyAssist.resources;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.julianyang.spotifyAssist.SecondTest;
 import org.julianyang.spotifyAssist.TestClass;
-import org.julianyang.spotifyAssist.api.AutoGsonTypeAdapterFactory;
 import org.julianyang.spotifyAssist.api.SimpleReturnObject;
 import org.julianyang.spotifyAssist.api.SimpleResponse;
 
@@ -18,11 +16,13 @@ public class HeyResource {
 
 	TestClass first;
 	SecondTest second;
+	Gson gson;
 
 	@Inject
-	HeyResource(TestClass first, SecondTest second) {
+	HeyResource(TestClass first, SecondTest second, Gson gson) {
 		this.first = first;
 		this.second = second;
+		this.gson = gson;
 	}
 
 	@GET
@@ -57,9 +57,6 @@ public class HeyResource {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	public Object post(String json) {
-		final Gson gson  = new GsonBuilder()
-				.registerTypeAdapterFactory(AutoGsonTypeAdapterFactory.create())
-				.create();
 		SimpleResponse resp = SimpleResponse.builder()
 				.setSpeech("hello there!")
 				.setDisplayText("hello there reader!")
