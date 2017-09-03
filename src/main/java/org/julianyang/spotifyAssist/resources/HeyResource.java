@@ -1,5 +1,6 @@
 package org.julianyang.spotifyAssist.resources;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
 import org.julianyang.spotifyAssist.SecondTest;
 import org.julianyang.spotifyAssist.TestClass;
@@ -10,10 +11,13 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.logging.Logger;
 
 @Path("/Hey")
 public class HeyResource {
 
+	private static final Logger log = Logger.getLogger(HeyResource.class.getName());
 	TestClass first;
 	SecondTest second;
 	Gson gson;
@@ -57,11 +61,18 @@ public class HeyResource {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	public Object post(String json) {
+		log.info("Received request: " + json);
 		SimpleResponse resp = SimpleResponse.builder()
 				.setSpeech("hello there!")
 				.setDisplayText("hello there reader!")
+				.setData("")
+				.setContextOut(new ArrayList<String>())
+				.setSource("webhook")
 				.build();
 		
 		return gson.toJson(resp, SimpleResponse.class);
+//		String response = "{\"speech\":\"hello there\",\"displayText\":\"hello there reader!\",\"contextOut\":[],\"source\":\"webhook\"}";
+//		log.info("Sending response: " + response);
+//		return response;
 	}
 }
