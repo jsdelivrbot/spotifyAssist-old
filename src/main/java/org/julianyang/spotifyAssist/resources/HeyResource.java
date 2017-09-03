@@ -2,6 +2,7 @@ package org.julianyang.spotifyAssist.resources;
 
 import org.julianyang.spotifyAssist.SecondTest;
 import org.julianyang.spotifyAssist.TestClass;
+import org.julianyang.spotifyAssist.api.SimpleReturnObject;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -40,5 +41,15 @@ public class HeyResource {
 		builder.append("The first date is:").append(sdf.format(first.getDate())).append("\n");
 		builder.append("The second date is:").append(sdf.format(second.getDate())).append("\n");
 		return builder.toString();
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/json")
+	public Object json() {
+		SimpleReturnObject ret = new SimpleReturnObject();
+		ret.setFruit("Apple");
+		ret.setHome("Hong Kong");
+		return ret;
 	}
 }

@@ -2,8 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6ec229a7-c690-4225-b2dc-2235ba7674d7" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/julianyang/spotifyAssist/SecondTest.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_9_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_9_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_9_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_jaxrs_jackson_jaxrs_base_2_9_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_jaxrs_jackson_jaxrs_json_provider_2_9_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_module_jackson_module_jaxb_annotations_2_8_4.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_glassfish_jersey_ext_jersey_entity_filtering_2_26_b09.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_glassfish_jersey_media_jersey_media_json_jackson_2_26_b09.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/julianyang/spotifyAssist/api/SimpleReturnObject.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spotifyAssist.iml" afterPath="$PROJECT_DIR$/spotifyAssist.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/julianyang/spotifyAssist/resources/HeyResource.java" afterPath="$PROJECT_DIR$/src/main/java/org/julianyang/spotifyAssist/resources/HeyResource.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
@@ -26,15 +36,46 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HeyResource.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="224">
+              <caret line="33" column="51" lean-forward="false" selection-start-line="33" selection-start-column="51" selection-end-line="33" selection-end-column="51" />
+              <folding>
+                <element signature="n#dependency#8;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HeyResource.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/julianyang/spotifyAssist/resources/HeyResource.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
-              <caret line="22" column="24" lean-forward="false" selection-start-line="22" selection-start-column="24" selection-end-line="22" selection-end-column="24" />
+            <state relative-caret-position="397">
+              <caret line="52" column="14" lean-forward="false" selection-start-line="52" selection-start-column="14" selection-end-line="52" selection-end-column="14" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#604#605#0" expanded="true" />
-                <element signature="e#631#632#0" expanded="true" />
+                <element signature="e#664#665#0" expanded="true" />
+                <element signature="e#691#692#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SimpleReturnObject.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/julianyang/spotifyAssist/api/SimpleReturnObject.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="285">
+              <caret line="19" column="20" lean-forward="false" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="20" />
+              <folding>
+                <element signature="e#149#150#0" expanded="true" />
+                <element signature="e#168#169#0" expanded="true" />
+                <element signature="e#207#208#0" expanded="true" />
+                <element signature="e#232#233#0" expanded="true" />
+                <element signature="e#260#261#0" expanded="true" />
+                <element signature="e#278#279#0" expanded="true" />
+                <element signature="e#315#316#0" expanded="true" />
+                <element signature="e#338#339#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -50,11 +91,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JerseyConfiguration.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="JerseyConfiguration.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/julianyang/spotifyAssist/config/jersey/JerseyConfiguration.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="16" column="8" lean-forward="false" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="8" />
+            <state relative-caret-position="285">
+              <caret line="19" column="23" lean-forward="false" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="23" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -129,11 +170,12 @@
         <option value="$MAVEN_REPOSITORY$/org/glassfish/jersey/containers/jersey-container-servlet/2.25.1/jersey-container-servlet-2.25.1.jar!/org/glassfish/jersey/servlet/init/FilterUrlMappingsProviderImpl.class" />
         <option value="$PROJECT_DIR$/src/test/java/org/julianyang/spotifyAssist/HelloAppEngineTest.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/appengine-web.xml" />
-        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/org/julianyang/spotifyAssist/config/jersey/JerseyConfiguration.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" />
         <option value="$PROJECT_DIR$/src/main/java/org/julianyang/spotifyAssist/SecondTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/julianyang/spotifyAssist/api/SimpleReturnObject.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/julianyang/spotifyAssist/resources/HeyResource.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
   </component>
@@ -284,6 +326,9 @@
       <recent name="org.julianyang.spotifyAssist" />
       <recent name="org.julianyang" />
     </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.julianyang.spotifyAssist.resources" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -297,7 +342,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Maven.build package">
+  <component name="RunManager" selected="Maven.local app engine start">
     <configuration name="Google App Engine Deployment" type="gcp-app-engine-deploy" factoryName="Google App Engine Deployment" />
     <configuration name="Google Stackdriver Debug" type="GCPDebug" factoryName="Google Stackdriver Debug" CloudProjectName="" />
     <configuration default="true" type="Applet" factoryName="Applet">
@@ -554,7 +599,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298153" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30763888" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22777778" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298153" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -633,7 +678,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1200">
           <caret line="80" column="16" lean-forward="false" selection-start-line="80" selection-start-column="16" selection-end-line="80" selection-end-column="16" />
-          <folding />
+          <folding>
+            <element signature="n#dependency#8;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -772,14 +819,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="63" column="30" lean-forward="false" selection-start-line="63" selection-start-column="30" selection-end-line="63" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/glassfish/jersey/containers/jersey-container-servlet-core/2.26-b08/jersey-container-servlet-core-2.26-b08.jar!/org/glassfish/jersey/servlet/ServletContainer.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="173">
@@ -820,18 +859,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/julianyang/spotifyAssist/resources/HeyResource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="22" column="24" lean-forward="false" selection-start-line="22" selection-start-column="24" selection-end-line="22" selection-end-column="24" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#604#605#0" expanded="true" />
-            <element signature="e#631#632#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/julianyang/spotifyAssist/SecondTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
@@ -848,10 +875,49 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/julianyang/spotifyAssist/config/jersey/JerseyConfiguration.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="8" lean-forward="false" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="8" />
+        <state relative-caret-position="285">
+          <caret line="19" column="23" lean-forward="false" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="23" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/julianyang/spotifyAssist/api/SimpleReturnObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="20" lean-forward="false" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="20" />
+          <folding>
+            <element signature="e#149#150#0" expanded="true" />
+            <element signature="e#168#169#0" expanded="true" />
+            <element signature="e#207#208#0" expanded="true" />
+            <element signature="e#232#233#0" expanded="true" />
+            <element signature="e#260#261#0" expanded="true" />
+            <element signature="e#278#279#0" expanded="true" />
+            <element signature="e#315#316#0" expanded="true" />
+            <element signature="e#338#339#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="33" column="51" lean-forward="false" selection-start-line="33" selection-start-column="51" selection-end-line="33" selection-end-column="51" />
+          <folding>
+            <element signature="n#dependency#8;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/julianyang/spotifyAssist/resources/HeyResource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="397">
+          <caret line="52" column="14" lean-forward="false" selection-start-line="52" selection-start-column="14" selection-end-line="52" selection-end-column="14" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#664#665#0" expanded="true" />
+            <element signature="e#691#692#0" expanded="true" />
           </folding>
         </state>
       </provider>

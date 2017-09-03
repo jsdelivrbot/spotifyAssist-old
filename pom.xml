@@ -18,7 +18,9 @@
     <jersey.version>2.26-b09</jersey.version>
     <hk2.version>2.5.0-b45</hk2.version>
     <guice.version>4.0</guice.version>
+    <jackson.version>2.9.0</jackson.version>
     <servlet.api.version>3.1.0</servlet.api.version>
+    <datanucleus.jpa.version>2.1.8</datanucleus.jpa.version>
   </properties>
 
   <prerequisites>
@@ -95,12 +97,74 @@
       <artifactId>hk2-api</artifactId>
       <version>${hk2.version}</version>
     </dependency>
-
+    <dependency>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-json-jackson</artifactId>
+      <scope>runtime</scope>
+      <version>${jersey.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.jaxrs</groupId>
+      <artifactId>jackson-jaxrs-json-provider</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
     <dependency>
       <groupId>jstl</groupId>
       <artifactId>jstl</artifactId>
       <version>1.2</version>
     </dependency>
+    <dependency>
+      <groupId>org.datanucleus</groupId>
+      <artifactId>datanucleus-api-jpa</artifactId>
+      <version>${datanucleus.jpa.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.datanucleus</groupId>
+      <artifactId>datanucleus-core</artifactId>
+      <version>${datanucleus.jpa.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.appengine.orm</groupId>
+      <artifactId>datanucleus-appengine</artifactId>
+      <version>2.1.1</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.datanucleus</groupId>
+          <artifactId>datanucleus-enhancer</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.jdo</groupId>
+      <artifactId>jdo-api</artifactId>
+      <version>3.0.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-jpa_2.0_spec</artifactId>
+      <version>1.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>5.1.0.Final</version>
+    </dependency>
+
+
+
 
     <!-- Test Dependencies -->
     <dependency>
@@ -162,6 +226,34 @@
             <jvmFlag>-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n</jvmFlag>
         </jvmFlags>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.datanucleus</groupId>
+        <artifactId>maven-datanucleus-plugin</artifactId>
+        <version>${datanucleus.jpa.version}</version>
+
+        <configuration>
+          <api>JPA</api>
+          <mappingIncludes>**/entities/*.class</mappingIncludes>
+          <verbose>true</verbose>
+        </configuration>
+
+        <dependencies>
+          <dependency>
+            <groupId>org.datanucleus</groupId>
+            <artifactId>datanucleus-core</artifactId>
+            <version>${datanucleus.jpa.version}</version>
+          </dependency>
+        </dependencies>
+
+        <executions>
+          <execution>
+            <phase>compile</phase>
+            <goals>
+              <goal>enhance</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
       <plugin>
