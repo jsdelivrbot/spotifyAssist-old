@@ -5,10 +5,7 @@ import org.julianyang.spotifyAssist.TestClass;
 import org.julianyang.spotifyAssist.api.SimpleReturnObject;
 
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.text.SimpleDateFormat;
 
@@ -51,5 +48,11 @@ public class HeyResource {
 		ret.setFruit("Apple");
 		ret.setHome("Hong Kong");
 		return ret;
+	}
+
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	public String post(String json) {
+
 	}
 }
