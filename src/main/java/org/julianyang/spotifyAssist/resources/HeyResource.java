@@ -1,8 +1,12 @@
 package org.julianyang.spotifyAssist.resources;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.julianyang.spotifyAssist.SecondTest;
 import org.julianyang.spotifyAssist.TestClass;
+import org.julianyang.spotifyAssist.api.AutoGsonTypeAdapterFactory;
 import org.julianyang.spotifyAssist.api.SimpleReturnObject;
+import org.julianyang.spotifyAssist.api.SimpleResponse;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -52,7 +56,15 @@ public class HeyResource {
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public String post(String json) {
-
+	public Object post(String json) {
+		final Gson gson  = new GsonBuilder()
+				.registerTypeAdapterFactory(AutoGsonTypeAdapterFactory.create())
+				.create();
+		SimpleResponse resp = SimpleResponse.builder()
+				.setSpeech("hello there!")
+				.setDisplayText("hello there reader!")
+				.build();
+		
+		return gson.toJson(resp, SimpleResponse.class);
 	}
 }
