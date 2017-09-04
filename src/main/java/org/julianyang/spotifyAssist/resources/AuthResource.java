@@ -44,7 +44,7 @@ public class AuthResource {
 	@POST
 	@Path("tokensignin")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String post(@FormParam("idtoken") String token) {
+	public String post(@FormParam("idtoken") String token, @FormParam("state") String state) {
 	  try {
       GoogleIdToken idToken = verifier.verify(token);
       if (idToken != null) {
@@ -53,6 +53,7 @@ public class AuthResource {
         // Print user identifier
         String userId = payload.getSubject();
         System.out.println("User ID: " + userId);
+        System.out.println("state: " + state);
 
         // Get profile information from payload
         String email = payload.getEmail();
@@ -73,15 +74,15 @@ public class AuthResource {
     return "";
 	}
 
-	@GET
-	@Produces(MediaType.TEXT_PLAIN)
-	public String get(
-			@QueryParam("client_id") String clientId,
-			@QueryParam("redirect_uri") String redirectUri,
-			@QueryParam("state") String state,
-			@QueryParam("response_type") String responseType) {
-		return ("Hey there from auth!");
-	}
+//	@GET
+//	@Produces(MediaType.TEXT_PLAIN)
+//	public String get(
+//			@QueryParam("client_id") String clientId,
+//			@QueryParam("redirect_uri") String redirectUri,
+//			@QueryParam("state") String state,
+//			@QueryParam("response_type") String responseType) {
+//		return ("Hey there from auth!");
+//	}
 
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)

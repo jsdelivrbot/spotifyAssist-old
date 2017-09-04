@@ -7,13 +7,18 @@ function onSignIn(googleUser) {
   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
   var id_token = googleUser.getAuthResponse().id_token;
 
+  // Grab query string params
+  var searchParams = new URLSearchParams(window.location.search);
+  var state = searchParams.get('state');
+
+
   var xhr = new XMLHttpRequest();
-  xhr.open('POST', 'auth/tokensignin');
+  xhr.open('POST', 'tokensignin');
   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
   xhr.onload = function() {
     console.log('Signed in as: ' + xhr.responseText);
   };
-  xhr.send('idtoken=' + id_token);
+  xhr.send('idtoken=' + id_token + '&state=' + state);
 }
 function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
