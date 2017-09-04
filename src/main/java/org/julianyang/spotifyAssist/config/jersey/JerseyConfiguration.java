@@ -1,6 +1,11 @@
 package org.julianyang.spotifyAssist.config.jersey;
 
 import com.google.inject.Injector;
+import java.io.IOException;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.mvc.freemarker.FreemarkerMvcFeature;
@@ -26,4 +31,5 @@ public class JerseyConfiguration extends ResourceConfig {
 		guiceBridge.bridgeGuiceInjector((Injector) servletContext.getAttribute(Injector.class.getName()));
 		log.info("Finish JerseyConfiguration");
 	}
+
 }

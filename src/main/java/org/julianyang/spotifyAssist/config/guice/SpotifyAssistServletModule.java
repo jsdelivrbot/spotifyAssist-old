@@ -7,7 +7,8 @@ import org.julianyang.spotifyAssist.SpotifyAssistServlet;
 public class SpotifyAssistServletModule extends ServletModule {
 	@Override
 	protected void configureServlets() {
-		serveRegex("^/(!_ah.*)").with(SpotifyAssistServlet.class);
+//		serveRegex("^/(!_ah.*)").with(SpotifyAssistServlet.class);
+		serve("/").with(SpotifyAssistServlet.class);
 		filter("/*").through(ObjectifyFilter.class);
 	}
 }
