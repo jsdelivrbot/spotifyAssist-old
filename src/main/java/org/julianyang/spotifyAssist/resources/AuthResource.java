@@ -6,10 +6,13 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.gson.Gson;
+import com.googlecode.objectify.Key;
+import com.googlecode.objectify.Objectify;
 import java.security.GeneralSecurityException;
 import java.security.SecureRandom;
 import java.util.Collections;
 import java.util.Base64;
+import static org.julianyang.spotifyAssist.OfyService.ofy;
 import org.julianyang.spotifyAssist.SecondTest;
 import org.julianyang.spotifyAssist.TestClass;
 
@@ -18,6 +21,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.text.SimpleDateFormat;
 import java.util.logging.Logger;
+import org.julianyang.spotifyAssist.entity.User;
 
 @Path("/auth")
 public class AuthResource {
@@ -59,10 +63,22 @@ public class AuthResource {
         System.out.println("state: " + state);
         System.out.println("redirectUri: " + redirectUri);
 
-        byte bytes[] = new byte[16];
-        secureRandom.nextBytes(bytes);
-        String accessToken = Base64.getEncoder().encodeToString(bytes);
-        System.out.println("accessToken: " + accessToken);
+        // Attempt to fetch user
+        User user = ofy().load().key(Key.create(User.class, userId)).now();
+        if (user == null) {
+          System.out.println("Creating new user");
+          byte bytes[] = new byte[16];
+          secureRandom.nextBytes(bytes);
+          String accessToken = Base64.getEncoder().encodeToString(bytes);
+          System.out.println("accessToken: " + accessToken);
+          user = new User(userId, accessToken, "google");
+          ofy().save().entity(user).now();
+        } else {
+          System.out.println("User already signed in!");
+        }
+
+        System.out.println(user);
+
 
         // Get profile information from payload
         String email = payload.getEmail();
