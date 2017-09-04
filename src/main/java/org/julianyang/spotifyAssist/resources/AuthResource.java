@@ -1,6 +1,5 @@
 package org.julianyang.spotifyAssist.resources;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.google.api.client.extensions.appengine.http.UrlFetchTransport;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
@@ -8,17 +7,16 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.gson.Gson;
 import java.security.GeneralSecurityException;
+import java.security.SecureRandom;
 import java.util.Collections;
+import java.util.Base64;
 import org.julianyang.spotifyAssist.SecondTest;
 import org.julianyang.spotifyAssist.TestClass;
-import org.julianyang.spotifyAssist.api.SimpleResponse;
-import org.julianyang.spotifyAssist.api.SimpleReturnObject;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.logging.Logger;
 
 @Path("/auth")
@@ -29,12 +27,14 @@ public class AuthResource {
 	TestClass first;
 	SecondTest second;
 	Gson gson;
+	SecureRandom secureRandom;
 
 	@Inject
-	AuthResource(TestClass first, SecondTest second, Gson gson) {
+	AuthResource(TestClass first, SecondTest second, Gson gson, SecureRandom secureRandom) {
 		this.first = first;
 		this.second = second;
 		this.gson = gson;
+		this.secureRandom = secureRandom;
     verifier = new GoogleIdTokenVerifier
         .Builder(UrlFetchTransport.getDefaultInstance(), JacksonFactory.getDefaultInstance())
         .setAudience(Collections.singletonList("459108910569-8g7sdom2iutcp2v2mvg1ab7hvkhm4c10.apps.googleusercontent.com"))
@@ -44,16 +44,25 @@ public class AuthResource {
 	@POST
 	@Path("tokensignin")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String post(@FormParam("idtoken") String token, @FormParam("state") String state) {
+	public String post(
+	    @FormParam("idtoken") String idToken,
+      @FormParam("state") String state,
+      @FormParam("redirectUri") String redirectUri) {
 	  try {
-      GoogleIdToken idToken = verifier.verify(token);
-      if (idToken != null) {
-        Payload payload = idToken.getPayload();
+      GoogleIdToken googleIdToken = verifier.verify(idToken);
+      if (googleIdToken != null) {
+        Payload payload = googleIdToken.getPayload();
 
         // Print user identifier
         String userId = payload.getSubject();
         System.out.println("User ID: " + userId);
         System.out.println("state: " + state);
+        System.out.println("redirectUri: " + redirectUri);
+
+        byte bytes[] = new byte[16];
+        secureRandom.nextBytes(bytes);
+        String accessToken = Base64.getEncoder().encodeToString(bytes);
+        System.out.println("accessToken: " + accessToken);
 
         // Get profile information from payload
         String email = payload.getEmail();

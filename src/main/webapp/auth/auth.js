@@ -1,4 +1,3 @@
-$(document).ready()
 function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
   console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
@@ -10,16 +9,21 @@ function onSignIn(googleUser) {
   // Grab query string params
   var searchParams = new URLSearchParams(window.location.search);
   var state = searchParams.get('state');
-
-
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', 'tokensignin');
-  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-  xhr.onload = function() {
-    console.log('Signed in as: ' + xhr.responseText);
-  };
-  xhr.send('idtoken=' + id_token + '&state=' + state);
+  var clientId = searchParams.get('client_id');
+  var redirectUri = searchParams.get('redirect_uri');
+  var expectedRedirectUri = 'https://oauth-redirect.googleusercontent.com/r/spotify-assist';
+  if (clientId === 'google' && redirectUri === expectedRedirectUri) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'tokensignin');
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function() {
+      console.log('Signed in as: ' + xhr.responseText);
+    };
+    var formParams = ['idtoken=' + id_token, 'state=' + state, 'redirectUri=' + redirectUri];
+    xhr.send(formParams.join('&'));
+  }
 }
+
 function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
