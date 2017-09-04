@@ -5,11 +5,14 @@ import com.google.gson.GsonBuilder;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.googlecode.objectify.ObjectifyFilter;
 import org.julianyang.spotifyAssist.api.AutoGsonTypeAdapterFactory;
 
-public class GsonTypeAdapterModule extends AbstractModule {
+public class BindingModule extends AbstractModule {
 	@Override
-	protected void configure() {}
+	protected void configure() {
+		bind(ObjectifyFilter.class).in(Singleton.class);
+	}
 
 	@Provides
 	@Singleton

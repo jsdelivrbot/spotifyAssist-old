@@ -7,6 +7,6 @@ import com.google.inject.servlet.GuiceServletContextListener;
 public class SpotifyAssistGuiceServletContextListener extends GuiceServletContextListener {
 	@Override
 	protected Injector getInjector() {
-		return Guice.createInjector(new SpotifyAssistServletModule(), new GsonTypeAdapterModule());
+		return Guice.createInjector(new SpotifyAssistServletModule(), new BindingModule());
 	}
 }
