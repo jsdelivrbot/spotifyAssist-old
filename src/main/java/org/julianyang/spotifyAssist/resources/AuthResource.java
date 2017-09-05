@@ -8,11 +8,16 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.gson.Gson;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
+import java.net.URI;
 import java.security.GeneralSecurityException;
 import java.security.SecureRandom;
 import java.util.Collections;
 import java.util.Base64;
 import static org.julianyang.spotifyAssist.OfyService.ofy;
+
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriBuilder;
 import org.julianyang.spotifyAssist.SecondTest;
 import org.julianyang.spotifyAssist.TestClass;
 
@@ -47,8 +52,7 @@ public class AuthResource {
 
 	@POST
 	@Path("tokensignin")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String post(
+	public Response post(
 	    @FormParam("idtoken") String idToken,
       @FormParam("state") String state,
       @FormParam("redirectUri") String redirectUri) {
@@ -78,17 +82,22 @@ public class AuthResource {
         }
 
         System.out.println(user);
-
+        URI uri = UriBuilder.fromUri(redirectUri)
+            .queryParam("state", state)
+            .queryParam("access_token", user.accessToken)
+            .queryParam("token_type", "bearer")
+            .build();
+        return Response.seeOther(uri).build();
 
         // Get profile information from payload
-        String email = payload.getEmail();
-        boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
-        String name = (String) payload.get("name");
-        String pictureUrl = (String) payload.get("picture");
-        String locale = (String) payload.get("locale");
-        String familyName = (String) payload.get("family_name");
-        String givenName = (String) payload.get("given_name");
-        return String.format("id: %s, email: %s, name: %s, locale: %s", userId, email, name, locale);
+//        String email = payload.getEmail();
+//        boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
+//        String name = (String) payload.get("name");
+//        String pictureUrl = (String) payload.get("picture");
+//        String locale = (String) payload.get("locale");
+//        String familyName = (String) payload.get("family_name");
+//        String givenName = (String) payload.get("given_name");
+        //return String.format("id: %s, email: %s, name: %s, locale: %s", userId, email, name, locale);
       }
     } catch (GeneralSecurityException e) {
       System.out.println(e.toString());
@@ -96,7 +105,7 @@ public class AuthResource {
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
-    return "";
+    return Response.status(Status.BAD_REQUEST).tag("We could not process this request.").build();
 	}
 
 //	@GET

@@ -13,15 +13,35 @@ function onSignIn(googleUser) {
   var redirectUri = searchParams.get('redirect_uri');
   var expectedRedirectUri = 'https://oauth-redirect.googleusercontent.com/r/spotify-assist';
   if (clientId === 'google' && redirectUri === expectedRedirectUri) {
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'tokensignin');
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onload = function() {
-      console.log('Signed in as: ' + xhr.responseText);
-    };
-    var formParams = ['idtoken=' + id_token, 'state=' + state, 'redirectUri=' + redirectUri];
-    xhr.send(formParams.join('&'));
+    var form = $('<form></form>');
+    form.attr('method', 'POST');
+    form.attr('action', 'tokensignin');
+    params = {'idtoken': id_token, 'state': state, 'redirectUri': redirectUri};
+    redirectPost('tokensignin', params);
+//    var xhr = new XMLHttpRequest();
+//    xhr.open('POST', 'tokensignin');
+//    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+//    xhr.onload = function() {
+//      console.log('Signed in as: ' + xhr.responseText);
+//    };
+//    var formParams = ['idtoken=' + id_token, 'state=' + state, 'redirectUri=' + redirectUri];
+//    xhr.send(formParams.join('&'));
   }
+}
+
+function redirectPost(url, data) {
+    var form = document.createElement('form');
+    form.method = 'POST';
+    form.action = url;
+    for (var name in data) {
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = name;
+        input.value = data[name];
+        form.appendChild(input);
+    }
+    document.body.appendChild(form);
+    form.submit();
 }
 
 function signOut() {
