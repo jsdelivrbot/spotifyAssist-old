@@ -16,7 +16,8 @@ public class JerseyFilter extends ServletContainer {
   private List<String> pathsToIgnore;
 
   @Override
-  public void init(FilterConfig filterConfig) {
+  public void init(FilterConfig filterConfig) throws ServletException {
+    super.init(filterConfig);
     String paths = filterConfig.getInitParameter("pathsToIgnore");
     if (paths != null) {
       pathsToIgnore = Arrays.asList(paths.split(","));
@@ -32,5 +33,6 @@ public class JerseyFilter extends ServletContainer {
     if (pathsToIgnore.stream().anyMatch(path::startsWith)) {
       chain.doFilter(request, response);
     }
+    super.doFilter(request, response, chain);
   }
 }
