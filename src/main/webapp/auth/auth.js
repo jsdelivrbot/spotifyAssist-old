@@ -12,7 +12,7 @@ function onSignIn(googleUser) {
   var clientId = searchParams.get('client_id');
   var redirectUri = searchParams.get('redirect_uri');
   var expectedRedirectUri = 'https://oauth-redirect.googleusercontent.com/r/spotify-assist';
-  if (clientId === 'google' && redirectUri === expectedRedirectUri) {
+  if (clientId === 'google' /*&& redirectUri === expectedRedirectUri*/) {
     var form = $('<form></form>');
     form.attr('method', 'POST');
     form.attr('action', 'tokensignin');
