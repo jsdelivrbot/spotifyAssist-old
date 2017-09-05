@@ -17,7 +17,7 @@ function onSignIn(googleUser) {
     form.attr('method', 'POST');
     form.attr('action', 'tokensignin');
     params = {'idtoken': id_token, 'state': state, 'redirectUri': redirectUri};
-    redirectPost('tokensignin', params);
+    redirectPost('signin', params);
 //    var xhr = new XMLHttpRequest();
 //    xhr.open('POST', 'tokensignin');
 //    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');

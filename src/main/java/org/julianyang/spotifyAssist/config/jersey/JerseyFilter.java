@@ -33,6 +33,7 @@ public class JerseyFilter extends ServletContainer {
     if (pathsToIgnore.stream().anyMatch(path::startsWith)) {
       chain.doFilter(request, response);
     }
+
     super.doFilter(request, response, chain);
   }
 }

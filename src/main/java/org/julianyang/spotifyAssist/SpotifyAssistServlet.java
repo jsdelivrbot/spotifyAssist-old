@@ -24,10 +24,11 @@ public class SpotifyAssistServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		resp.setContentType("text/plain");
-		resp.getWriter().println("Hello from SpotifyAssist!");
-
-		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss.SSS");
-		resp.getWriter().println("Date is: " + sdf.format(testClass.getDate()));
+//		resp.setContentType("text/plain");
+//		resp.getWriter().println("Hello from SpotifyAssist!");
+//
+//		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss.SSS");
+//		resp.getWriter().println("Date is: " + sdf.format(testClass.getDate()));
+		req.getRequestDispatcher("/static/index.html").forward(req, resp);
 	}
 }
