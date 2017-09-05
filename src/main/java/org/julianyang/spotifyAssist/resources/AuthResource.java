@@ -124,7 +124,8 @@ public class AuthResource {
       @FormParam("code") String code,
       @FormParam("refresh_token") String refreshToken) {
 	  String expectedClientSecret = "secret";
-	  Authorization auth = ofy().load().key(Key.create(Authorization.class, code)).now();
+	  String authId = grantType.equals("authorization_code") ? code : refreshToken;
+	  Authorization auth = ofy().load().key(Key.create(Authorization.class, authId)).now();
     TokenExchangeResponse tokenExchangeResponse;
 	  if (clientId.equals("google") && clientSecret.equals(expectedClientSecret) && auth != null) {
 	    if (grantType.equals("authorization_code") && auth.type == AuthType.AUTH_CODE &&
