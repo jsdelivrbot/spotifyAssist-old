@@ -18,3 +18,40 @@ var authorizeURL = spotifyApi.createAuthorizeURL(scopes, state, true);
 exports.authorizeURL = authorizeURL;
 // https://accounts.spotify.com:443/authorize?client_id=5fe01282e44241328a84e7c5cc169165&response_type=code&redirect_uri=https://example.com/callback&scope=user-read-private%20user-read-email&state=some-state-of-my-choice
 console.log(authorizeURL);
+
+function retrieveToken(code) {
+  spotifyApi.authorizationCodeGrant(code)
+    .then(function(data) {
+      console.log('The token expires in ' + data.body['expires_in']);
+      console.log('The access token is ' + data.body['access_token']);
+      console.log('The refresh token is ' + data.body['refresh_token']);
+
+      // Set the access token on the API object to use it in later calls
+      spotifyApi.setAccessToken(data.body['access_token']);
+      spotifyApi.setRefreshToken(data.body['refresh_token']);
+    }, function(err) {
+      console.log('Something went wrong!', err);
+    });
+}
+
+function processCallback(req, res) {
+  var code = 'query' in req ? req.query.code : '';
+  code = process.env.SPOTIFY_TOKEN;
+  console.log(code);
+  console.log('retrieving token')
+  retrieveToken(code);
+  // try to access stuff
+  var me = 'blagh';
+  spotifyApi.getMe()
+      .then(function(data) {
+        me = data.body;
+        console.log('Some information about the authenticated user', data.body);
+      }, function(err) {
+        console.log('Something went wrong!', err);
+      });
+
+  res.render('pages/spotify', {name: data.body, email: 'a@google.com', authCode: code});
+}
+
+exports.processCallback = processCallback
+exports.retrieveToken = retrieveToken
