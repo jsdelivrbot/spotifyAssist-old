@@ -52,11 +52,12 @@ function processCallback(req, res) {
         .then(function(data) {
           me = data.body;
           console.log('Some information about the authenticated user', data.body);
+          res.render('pages/spotify', {name: me.display_name, email: me.email, authCode: code});
         }, function(err) {
           console.log('Something went wrong with getMe()!', err);
         });
 
-    res.render('pages/spotify', {name: me, email: 'a@google.com', authCode: code});
+
   });
 }
 
