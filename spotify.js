@@ -51,7 +51,7 @@ function processCallback(req, res) {
         console.log('Something went wrong!', err);
       });
 
-  res.render('pages/spotify', {name: data.body, email: 'a@google.com', authCode: code});
+  res.render('pages/spotify', {name: me, email: 'a@google.com', authCode: code});
 }
 
 exports.processCallback = processCallback
