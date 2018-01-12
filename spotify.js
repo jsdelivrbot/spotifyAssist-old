@@ -33,6 +33,7 @@ function retrieveToken(code) {
       spotifyApi.setRefreshToken(data.body['refresh_token']);
     }, function(err) {
       console.log('Something went wrong with retrieveToken()!', err);
+      spotifyApi.setAccessToken(process.env.SPOTIFY_ACCESS_TOKEN);
     });
 }
 
@@ -45,6 +46,7 @@ function processCallback(req, res) {
   retrieveToken(code);
   // try to access stuff
   var me = 'blagh';
+  console.log('getAccessToken: ' + spotifyApi.getAccessToken());
   spotifyApi.getMe()
       .then(function(data) {
         me = data.body;
