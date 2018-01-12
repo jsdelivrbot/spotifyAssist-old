@@ -13,7 +13,7 @@ var spotifyApi = new SpotifyWebApi({
 });
 
 // Create the authorization URL
-var authorizeURL = spotifyApi.createAuthorizeURL(scopes, state);
+var authorizeURL = spotifyApi.createAuthorizeURL(scopes, state, true);
 
 exports.authorizeURL = authorizeURL;
 // https://accounts.spotify.com:443/authorize?client_id=5fe01282e44241328a84e7c5cc169165&response_type=code&redirect_uri=https://example.com/callback&scope=user-read-private%20user-read-email&state=some-state-of-my-choice
