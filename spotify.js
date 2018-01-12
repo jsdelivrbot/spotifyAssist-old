@@ -4,6 +4,7 @@ var scopes = ['user-read-private', 'user-read-email'],
     //redirectUri = 'localhost:5000/spotify-callback',
     redirectUri = 'https://spotify-assist.herokuapp.com/spotify-callback',
     clientId = process.env.SPOTIFY_CLIENT_ID,
+    clientSecret = process.env.SPOTIFY_SECRET,
     state = 'some-state-of-my-choice';
 
 // Setting credentials can be done in the wrapper's constructor, or using the API object's setters.
@@ -30,7 +31,7 @@ function retrieveToken(code) {
       spotifyApi.setAccessToken(data.body['access_token']);
       spotifyApi.setRefreshToken(data.body['refresh_token']);
     }, function(err) {
-      console.log('Something went wrong!', err);
+      console.log('Something went wrong with retrieveToken()!', err);
     });
 }
 
@@ -48,7 +49,7 @@ function processCallback(req, res) {
         me = data.body;
         console.log('Some information about the authenticated user', data.body);
       }, function(err) {
-        console.log('Something went wrong!', err);
+        console.log('Something went wrong with getMe()!', err);
       });
 
   res.render('pages/spotify', {name: me, email: 'a@google.com', authCode: code});
