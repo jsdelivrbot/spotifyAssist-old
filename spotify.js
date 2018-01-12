@@ -10,7 +10,8 @@ var scopes = ['user-read-private', 'user-read-email'],
 // Setting credentials can be done in the wrapper's constructor, or using the API object's setters.
 var spotifyApi = new SpotifyWebApi({
   redirectUri : redirectUri,
-  clientId : clientId
+  clientId : clientId,
+  clientSecret : clientSecret
 });
 
 // Create the authorization URL
