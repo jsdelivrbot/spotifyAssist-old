@@ -1,6 +1,6 @@
 var SpotifyWebApi = require('spotify-web-api-node');
 
-var scopes = ['user-read-private', 'user-read-email', 'user-read-birthdate'],
+var scopes = ['user-read-private', 'user-read-email'],
     //redirectUri = 'localhost:5000/spotify-callback',
     redirectUri = 'https://spotify-assist.herokuapp.com/spotify-callback',
     clientId = process.env.SPOTIFY_CLIENT_ID,
