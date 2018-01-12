@@ -43,19 +43,20 @@ function processCallback(req, res) {
   var code = 'SPOTIFY_TOKEN' in process.env ? process.env.SPOTIFY_TOKEN : req.query.code;
   console.log(code);
   console.log('retrieving token')
-  retrieveToken(code);
-  // try to access stuff
-  var me = 'blagh';
-  console.log('getAccessToken: ' + spotifyApi.getAccessToken());
-  spotifyApi.getMe()
-      .then(function(data) {
-        me = data.body;
-        console.log('Some information about the authenticated user', data.body);
-      }, function(err) {
-        console.log('Something went wrong with getMe()!', err);
-      });
+  retrieveToken(code).then(function() {
+    // try to access stuff
+    var me = 'blagh';
+    console.log('getAccessToken: ' + spotifyApi.getAccessToken());
+    spotifyApi.getMe()
+        .then(function(data) {
+          me = data.body;
+          console.log('Some information about the authenticated user', data.body);
+        }, function(err) {
+          console.log('Something went wrong with getMe()!', err);
+        });
 
-  res.render('pages/spotify', {name: me, email: 'a@google.com', authCode: code});
+    res.render('pages/spotify', {name: me, email: 'a@google.com', authCode: code});
+  }, function(err) { console.log('something bad happened');});
 }
 
 exports.processCallback = processCallback
