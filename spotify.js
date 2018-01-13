@@ -44,12 +44,13 @@ function processCallback(req, res) {
   var code = 'SPOTIFY_TOKEN' in process.env ? process.env.SPOTIFY_TOKEN : req.query.code;
   console.log(code);
   console.log('retrieving token')
-  retrieveToken(code, function() {
+  retrieveToken(code, async function() {
     // try to access stuff
     var me = 'blagh';
     console.log('getAccessToken: ' + spotifyApi.getAccessToken());
     try {
-      me = (await spotifyApi.getMe()).body;
+      me = await spotifyApi.getMe();
+      me = me.body;
     } catch (err) {
       console.log('Something went wrong with getMe()!', err);
     }
@@ -63,8 +64,6 @@ function processCallback(req, res) {
     //    }, function(err) {
     //      console.log('Something went wrong with getMe()!', err);
     //    });
-
-
   });
 }
 
