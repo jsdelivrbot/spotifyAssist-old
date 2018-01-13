@@ -38,7 +38,7 @@ function retrieveToken(code, callback) {
     });
 }
 
-function processCallback(req, res) {
+async function processCallback(req, res) {
   //var code = 'query' in req ? req.query.code : '';
   //code = process.env.SPOTIFY_TOKEN;
   var code = 'SPOTIFY_TOKEN' in process.env ? process.env.SPOTIFY_TOKEN : req.query.code;
@@ -50,7 +50,6 @@ function processCallback(req, res) {
     console.log('getAccessToken: ' + spotifyApi.getAccessToken());
     try {
       me = await spotifyApi.getMe();
-      me = me.body;
     } catch (err) {
       console.log('Something went wrong with getMe()!', err);
     }
