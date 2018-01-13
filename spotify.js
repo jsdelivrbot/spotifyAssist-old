@@ -53,7 +53,7 @@ async function processCallback(req, res) {
     } catch (err) {
       console.log('Something went wrong with getMe()!', err);
     }
-    console.log('Some information about the authenticated user', data.body);
+    console.log('Some information about the authenticated user', me);
     res.render('pages/spotify', {name: me.display_name, email: me.email, authCode: code});
     //spotifyApi.getMe()
     //    .then(function(data) {
