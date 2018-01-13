@@ -72,7 +72,6 @@ async function processCallback(req, res) {
     //    }, function(err) {
     //      console.log('Something went wrong with getMe()!', err);
     //    });
-  });
 }
 
 exports.processCallback = processCallback
