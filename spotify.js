@@ -2,7 +2,9 @@ var SpotifyWebApi = require('spotify-web-api-node');
 
 var scopes = ['user-read-private', 'user-read-email'],
     //redirectUri = 'localhost:5000/spotify-callback',
-    redirectUri = 'https://spotify-assist.herokuapp.com/spotify-callback',
+    redirectUri = 'ENV' in process.env
+        ? 'http://localhost:5000/spotify-callback'
+        : 'https://spotify-assist.herokuapp.com/spotify-callback',
     clientId = process.env.SPOTIFY_CLIENT_ID,
     clientSecret = process.env.SPOTIFY_SECRET,
     state = 'some-state-of-my-choice';
@@ -39,14 +41,7 @@ function retrieveToken(code, callback) {
     });
 }
 
-async function processCallback(req, res) {
-  //var code = 'query' in req ? req.query.code : '';
-  //code = process.env.SPOTIFY_TOKEN;
-  var code = 'SPOTIFY_TOKEN' in process.env ? process.env.SPOTIFY_TOKEN : req.query.code;
-  console.log(code);
-  console.log('retrieving token')
-  retrieveToken(code, async function() {
-    // try to access stuff
+async function fetchMeAndRender(res, code) {
     var me = 'blagh';
     console.log('getAccessToken: ' + spotifyApi.getAccessToken());
     try {
@@ -56,15 +51,16 @@ async function processCallback(req, res) {
     }
     console.log('Some information about the authenticated user', me);
     res.render('pages/spotify', {name: me.display_name, email: me.email, authCode: code});
-    //spotifyApi.getMe()
-    //    .then(function(data) {
-    //      me = data.body;
-    //      console.log('Some information about the authenticated user', data.body);
-    //      res.render('pages/spotify', {name: me.display_name, email: me.email, authCode: code});
-    //    }, function(err) {
-    //      console.log('Something went wrong with getMe()!', err);
-    //    });
-  });
+  }
+
+async function processCallback(req, res) {
+  //var code = 'query' in req ? req.query.code : '';
+  //code = process.env.SPOTIFY_TOKEN;
+  // 'SPOTIFY_TOKEN' in process.env ? process.env.SPOTIFY_TOKEN :
+  var code = req.query.code;
+  console.log(code);
+  console.log('retrieving token')
+  retrieveToken(code, () => fetchMeAndRender(res, code));
 }
 
 exports.processCallback = processCallback
