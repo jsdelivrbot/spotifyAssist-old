@@ -1,8 +1,7 @@
-let SpotifyWebApi = require('spotify-web-api-node');
+const SpotifyWebApi = require('spotify-web-api-node');
+const constants = require('./constants.js');
 let scopes = ['user-read-private', 'user-read-email'];
-let redirectUri = 'ENV' in process.env
-        ? 'http://localhost:5000/spotify-callback'
-        : 'https://spotify-assist.herokuapp.com/spotify-callback';
+let redirectUri = constants.SPOTIFY_LOGIN_CALLBACK;
 let clientId = process.env.SPOTIFY_CLIENT_ID;
 let clientSecret = process.env.SPOTIFY_SECRET;
 let state = 'some-state-of-my-choice';
@@ -73,9 +72,9 @@ async function processCallback(req, res) {
   // var code = 'query' in req ? req.query.code : '';
   // code = process.env.SPOTIFY_TOKEN;
   //  'SPOTIFY_TOKEN' in process.env ? process.env.SPOTIFY_TOKEN :
-  var code = req.query.code;
+  let code = req.query.code;
   console.log(code);
-  console.log('retrieving token')
+  console.log('retrieving token');
   retrieveToken(code, () => fetchMeAndRender(res, code));
 }
 
