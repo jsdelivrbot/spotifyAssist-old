@@ -8,7 +8,8 @@
 // for (let constantName in constants) {
 //   exports[toSnake(constantName)]
 // }
-const domain = 'ENV' in process.env
+const isDev = 'ENV' in process.env;
+const domain = isDev
     ? 'http://localhost:5000/'
     : 'https://spotify-assist.herokuapp.com/';
     
@@ -29,3 +30,4 @@ const googleLoginCallbackUrl = generateUrl(googleLoginCallback);
 exports.generateUrl = generateUrl;
 exports.SPOTIFY_LOGIN_CALLBACK_URL = spotifyLoginCallbackUrl;
 exports.GOOGLE_LOGIN_CALLBACK_URL = googleLoginCallbackUrl;
+exports.IS_DEV = isDev;

@@ -1,13 +1,14 @@
-const {Client} = require('pg');
 
+const {Client} = require('pg');
+const constants = require('./constants.js');
 const client = new Client({
   connectionString: process.env.DATABASE_URL,
-  ssl: true,
+  ssl: !constants.IS_DEV,
 });
 
 client.connect();
 console.log('connected to db');
-findOrCreateUser(1234).then((user) => console.log('test user: ' + user));
+
 /**
  * run a given query
  * @param {*} query
@@ -33,10 +34,32 @@ async function findOrCreateUser(userId) {
   let user = await checkUserExists(userId);
   if (!user) {
     console.log('user did not exist, creating');
-    user = addUser(userId);
+    await addUser(userId);
+    user = await checkUserExists(userId);
   }
   console.log('user: ' + user);
   return user;
+}
+
+/**
+ * Check whether user exists
+ * @param {string} userId
+ * @param {string} accessToken
+ * @param {string} accessExpiration
+ * @param {string} refreshToken
+ */
+async function updateUser(userId, accessToken, accessExpiration, refreshToken) {
+  let query = {
+    text: `UPDATE users
+    SET spotify_access_token = $2,
+        spotify_access_token_expiration = $3,
+        spotify_refresh_token = $4 
+    WHERE id = $1;`,
+    values: [userId, accessToken, accessExpiration, refreshToken],
+  };
+
+  let result = await runQuery(query, 'updateUser');
+  console.log(result);
 }
 
 /**
@@ -70,6 +93,7 @@ async function addUser(userId) {
 exports.checkUserExists = checkUserExists;
 exports.addUser = addUser;
 exports.findOrCreateUser = findOrCreateUser;
+exports.updateUser = updateUser;
 /*
 client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
   if (err) throw err;
