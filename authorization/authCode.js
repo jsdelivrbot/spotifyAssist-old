@@ -74,3 +74,4 @@ function verifyValidAccessToken(codeToken) {
 
 exports.generateCodeToken = generateCodeToken;
 exports.decryptCodeToken = decryptCodeToken;
+exports.verifyValidAccessToken = verifyValidAccessToken;
