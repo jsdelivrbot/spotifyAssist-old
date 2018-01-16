@@ -1,6 +1,6 @@
-
 const passport = require('passport');
 const {OAuth2Client} = require('google-auth-library');
+const constants = require('../constants.js');
 const oAuth2Client = new OAuth2Client(
   process.env.GOOGLE_CLIENT_ID,
   process.env.GOOGLE_CLIENT_SECRET,
@@ -8,16 +8,16 @@ const oAuth2Client = new OAuth2Client(
 );
 const express = require('express');
 const {URL} = require('url');
-const constants = require('../constants.js');
 const db = require('../db.js');
 const spotify = require('../spotify.js');
 const authCode = require('./authCode.js');
+const timestamp = require('unix-timestamp');
 let router = express.Router();
 
 // Use bodyParser to parse urlencoded post data.
-router.get('/tokenExchange', grantToken);
 router.get('/signIn', (req, res) => res.render('pages/signin'));
 router.post('/signin', signinPost);
+router.post('/exchangeToken', exchangeToken);
 router.get(
   '/google-callback', passport.authenticate('google', {}), checkSpotify);
 router.get('/checkSpotify', checkSpotify);
@@ -41,7 +41,8 @@ async function signinPost(req, res) {
     console.log('id: ' + id);
     // fetch/create user.
     let user = await db.findOrCreateUser(id);
-    let authCodeToken = authCode.generateCodeToken(id, clientId, 'AUTH_CODE');
+    let authCodeToken =
+      authCode.generateCodeToken(id, clientId, constants.AUTH_CODE);
 
     if (!user.spotify_access_token) {
       user.returnAuthCodeInfo = {
@@ -104,8 +105,64 @@ function checkSpotify(req, res) {
  * @param {http.ServerRequest} req: body contains client_id
  * @param {http.ServerResponse} res: response to send.
  */
-function grantToken(req, res) {
+function exchangeToken(req, res) {
+  let clientId = req.body.client_id;
+  let clientSecret = req.body.client_secret;
+  let grantType = req.body.grant_type;
+  // TODO: validate clientId && clientSecret pairing.
+  let token = req.body.code ? req.body.code : req.body.refresh_token;
+  console.log(`token: ${token}`);
+  let verifiedToken = authCode.decryptCodeToken(token);
+  let userId = verifiedToken.userId;
+  let response = {};
+  if (grantType === 'authorization_code') {
+    // look for authorization code in db.
+    // look up expiration date.
+    let now = timestamp.now();
+    let parsed = Date.parse(verifiedToken.expiresAt);
+    console.log(`now: ${now}, parsed: ${parsed}, less than: ${now < parsed}`);
+    let sameClientId = verifiedToken.clientId === clientId;
+    let sameType = verifiedToken.type === constants.AUTH_CODE;
+    let notExpired = Date.parse(verifiedToken.expiresAt) > timestamp.now();
+    valid = sameClientId && sameType && notExpired;
+    if (!valid) {
+      return returnInvalidExchange(res);
+    }
+    let accessToken =
+        authCode.generateCodeToken(userId, clientId, constants.ACCESS_TOKEN);
+    let refreshToken =
+        authCode.generateCodeToken(userId, clientId, constants.REFRESH_TOKEN);
+    response = {
+      token_type: 'bearer',
+      access_token: accessToken.code,
+      refresh_token: refreshToken.code,
+      // TODO: refactor this.
+      expires_in: 60*60,
+    };
+    res.json(response);
+  } else if (grantType === 'refresh_token') {
+    let sameClientId = verifiedToken.clientId === clientId;
+    let sameType = verifiedToken.type === constants.REFRESH_TOKEN;
+    valid = sameClientId && sameType;
+    if (!valid) {
+      return returnInvalidExchange(res);
+    }
+    let accessToken =
+        authCode.generateCodeToken(userId, clientId, constants.ACCESS_TOKEN);
+    response = {
+      token_type: 'bearer',
+      access_token: accessToken.code,
+      // TODO: refactor this.
+      expires_in: 60*60,
+    };
+  } else {
+    return returnInvalidExchange(res);
+  }
+  res.json(response);
+}
 
+function returnInvalidExchange(res) {
+  res.status(400).json({error: 'invalid_grant'});
 }
 
 exports.returnAuthCode = returnAuthCode;

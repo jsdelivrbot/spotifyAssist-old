@@ -31,3 +31,6 @@ exports.generateUrl = generateUrl;
 exports.SPOTIFY_LOGIN_CALLBACK_URL = spotifyLoginCallbackUrl;
 exports.GOOGLE_LOGIN_CALLBACK_URL = googleLoginCallbackUrl;
 exports.IS_DEV = isDev;
+exports.AUTH_CODE = 'AUTH_CODE';
+exports.ACCESS_TOKEN = 'ACCESS_TOKEN';
+exports.REFRESH_TOKEN = 'REFRESH_TOKEN';
