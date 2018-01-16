@@ -17,6 +17,7 @@ console.log('connected to db');
  */
 async function runQuery(query, methodName) {
   try {
+    console.log('running query for ' + methodName);
     return (await client.query(query));
   } catch (err) {
     console.log(
@@ -90,10 +91,84 @@ async function addUser(userId) {
   console.log(result);
 }
 
+/**
+ * Will add or update the given codeToken. Update will overwrite.
+ * @param {*} codeToken 
+ * @return {bool} whether the code already existed.
+ */
+async function addOrUpdateCode(codeToken) {
+  let existingToken = await lookupCodeByKey(codeToken);
+  if (!existingToken) {
+    console.log(`codeToken of type ${codeToken.type} for user ${codeToken.userId} 
+      and clientId ${codeToken.clientId} did not exist, creating`);
+    await addCode(codeToken);
+    return true;
+  } else {
+    let query = {
+      text: `UPDATE authorizations 
+        SET code = $1,
+            expires_at = $2
+        WHERE code_type = $3 and user_id = $4 and client_id = $5;`,
+      values: [
+        codeToken.code,
+        codeToken.expiresAt,
+        codeToken.type,
+        codeToken.userId,
+        codeToken.clientId],
+    };
+    let result = await runQuery(query, 'addOrUpdateCode.update');
+    console.log(result);
+    return false;
+  }
+}
+
+async function lookupCodeByKey(codeToken) {
+  let query = {
+    text: `SELECT * FROM authorizations WHERE code_type = $1 and user_id = $2 
+      and client_id = $3`,
+    values: [codeToken.type, codeToken.userId, codeToken.clientId],
+  };
+  let result = await runQuery(query, 'lookupCodeByKey');
+  return result && result.rows.length > 0 ? result.rows[0] : null;
+}
+
+/**
+ * Add a code.
+ * @param {codeToken} codeToken
+ */
+async function addCode(codeToken) {
+  let query = {
+    text:
+      `INSERT INTO authorizations (code, code_type, user_id, client_id, expires_at) 
+       VALUES ($1, $2, $3, $4, $5)`,
+    values: [
+      codeToken.code,
+      codeToken.type,
+      codeToken.userId,
+      codeToken.clientId,
+      codeToken.expiresAt,
+    ],
+  };
+  let result = await runQuery(query, 'addCode');
+  console.log(result);
+}
+
+async function lookupCode(code) {
+  let query = {
+    text: 'SELECT * FROM authorizations WHERE code = $1',
+    values: [code],
+  };
+  let result = await runQuery(query);
+  return result && result.rows.length > 0 ? result.rows[0] : null;
+}
+
 exports.checkUserExists = checkUserExists;
 exports.addUser = addUser;
 exports.findOrCreateUser = findOrCreateUser;
 exports.updateUser = updateUser;
+exports.addCode = addCode;
+exports.addOrUpdateCode = addOrUpdateCode;
+exports.lookupCode = lookupCode;
 /*
 client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
   if (err) throw err;

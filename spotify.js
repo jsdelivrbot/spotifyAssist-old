@@ -2,6 +2,7 @@ const SpotifyWebApi = require('spotify-web-api-node');
 const constants = require('./constants.js');
 const jwt = require('jsonwebtoken');
 const db = require('./db.js');
+const authRouter = require('./authorization/authRouter.js');
 const timestamp = require('unix-timestamp');
 let scopes = ['user-read-private', 'user-read-email'];
 let redirectUri = constants.SPOTIFY_LOGIN_CALLBACK_URL;
@@ -24,7 +25,7 @@ let spotifyApi = new SpotifyWebApi({
  */
 function loginSpotify(req, res) {
   let id = req.user.id;
-  let token = jwt.sign({id: id}, process.env.JWT_TOKEN_SECRET);
+  let token = jwt.sign({id: id, user: req.user}, process.env.JWT_TOKEN_SECRET);
   console.log(`token: ${token}`);
   // Create the authorization URL
   let authorizeURL = spotifyApi.createAuthorizeURL(scopes, token, true);
@@ -39,39 +40,38 @@ exports.loginSpotify = loginSpotify;
  * Fetches access token from Spotify API.
  * @param {string} code: the authorization code to use
  * @param {string} id
- * @param {function} callback: callback when finishing retrieving token.
+ * @return {user}
  * */
-function retrieveToken(code, id, callback) {
-  spotifyApi.authorizationCodeGrant(code)
-    .then(function(data) {
-      let accessToken = data.body['access_token'];
-      let accessExpirationIn = data.body['expires_in'];
-      let refreshToken = data.body['refresh_token'];
-      console.log('The token expires in ' + accessExpirationIn);
-      console.log('The access token is ' + accessToken);
-      console.log('The refresh token is ' + refreshToken);
+async function retrieveToken(code) {
+  try {
+    let data = await spotifyApi.authorizationCodeGrant(code);
+    let accessToken = data.body['access_token'];
+    let accessExpirationIn = data.body['expires_in'];
+    let refreshToken = data.body['refresh_token'];
+    console.log('The token expires in ' + accessExpirationIn);
+    console.log('The access token is ' + accessToken);
+    console.log('The refresh token is ' + refreshToken);
 
-      // Set the access token on the API object to use it in later calls
-      spotifyApi.setAccessToken(data.body['access_token']);
-      spotifyApi.setRefreshToken(data.body['refresh_token']);
+    // Set the access token on the API object to use it in later calls
+    spotifyApi.setAccessToken(data.body['access_token']);
+    spotifyApi.setRefreshToken(data.body['refresh_token']);
 
-      // convert time
-      let accessExpirationDate =
-          timestamp.toDate(timestamp.now(accessExpirationIn));
-      console.log(accessExpirationDate);
-      // save spotify token && expiration here.
-      let user = {
-        id: id,
-        spotify_access_token: accessToken,
-        spotify_access_token_expiration: accessExpirationDate,
-        spotify_refresh_token: refreshToken,
-      };
-      callback(user);
-    }, function(err) {
+    // convert time
+    let accessExpirationDate =
+        timestamp.toDate(timestamp.now(accessExpirationIn));
+    console.log(accessExpirationDate);
+    // save spotify token && expiration here.
+    let user = {
+      spotify_access_token: accessToken,
+      spotify_access_token_expiration: accessExpirationDate,
+      spotify_refresh_token: refreshToken,
+    };
+    return user;
+  } catch (err) {
       console.log('Something went wrong with retrieveToken()!', err);
       spotifyApi.setAccessToken(process.env.SPOTIFY_ACCESS_TOKEN);
-      callback();
-    });
+      return null;
+  }
 }
 
 /**
@@ -118,10 +118,22 @@ async function processCallback(req, res) {
   //  'SPOTIFY_TOKEN' in process.env ? process.env.SPOTIFY_TOKEN :
   let code = req.query.code;
   let token = req.query.state;
-  let id = jwt.verify(token, process.env.JWT_TOKEN_SECRET).id;
+  let verifiedToken = jwt.verify(token, process.env.JWT_TOKEN_SECRET);
+  let id = verifiedToken.id;
+  let authCodeInfo = verifiedToken.user.returnAuthCodeInfo;
   console.log(code);
   console.log('retrieving token');
-  retrieveToken(code, id, (user) => fetchMeAndRender(res, user));
+  let user = await retrieveToken(code);
+  user.id = id;
+  await db.updateUser(
+    user.id,
+    user.spotify_access_token,
+    user.spotify_access_token_expiration,
+    user.spotify_refresh_token);
+  me = (await spotifyApi.getMe()).body;
+  console.log('Some information about the authenticated user: ', me);
+  authRouter.returnAuthCode(
+    authCodeInfo.token, authCodeInfo.state, authCodeInfo.redirectUrl, res);
 }
 
 exports.processCallback = processCallback;

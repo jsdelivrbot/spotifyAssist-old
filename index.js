@@ -15,13 +15,12 @@ express()
   .use(express.static(path.join(__dirname, 'public')))
   .use(bodyParser.urlencoded({extended: true}))
   .use(passport.initialize())
-  .use('/auth', authRouter)
+  .use('/auth', authRouter.router)
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index'))
   .get(
     '/login-spotify',
-    
     spotify.loginSpotify)
   .get('/spotify-callback', (req, res) => spotify.processCallback(req, res))
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
