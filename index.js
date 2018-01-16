@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 5000;
 
 // Local files
 const spotify = require('./spotify.js');
+const spotify2 = require('./spotify2.js');
 //const oauth = require('./oauth.js');
 const authRouter = require('./authorization/authRouter.js');
 
@@ -19,6 +20,7 @@ express()
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index'))
+  .get('/test', spotify2.test)
   .get(
     '/login-spotify',
     spotify.loginSpotify)

@@ -65,5 +65,12 @@ function decryptCodeToken(codeToken) {
   }
 }
 
+function verifyValidAccessToken(codeToken) {
+  let token = decryptCodeToken(codeToken);
+  let notExpired = Date.parse(token.expiresAt) > timestamp.now();
+  let isAccessToken = token.type === constants.ACCESS_TOKEN;
+  return notExpired && isAccessToken;
+}
+
 exports.generateCodeToken = generateCodeToken;
 exports.decryptCodeToken = decryptCodeToken;
