@@ -14,8 +14,7 @@ const authRouter = require('./authorization/authRouter.js');
 
 express()
   .use(express.static(path.join(__dirname, 'public')))
-  .use(bodyParser.urlencoded({extended: true}))
-  .use(passport.initialize())
+  .use(bodyParser.json({type: 'application/json'}))
   .use('/auth', authRouter.router)
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')

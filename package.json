@@ -11,6 +11,7 @@
     "test": "node test.js"
   },
   "dependencies": {
+    "actions-on-google": "^1.7.0",
     "asyncawait": "^1.0.6",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
