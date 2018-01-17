@@ -20,7 +20,7 @@ express()
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index'))
-  .get('/test', spotify2.test)
+  .get('/webhook', spotify2.test)
   .get(
     '/login-spotify',
     spotify.loginSpotify)
