@@ -1,4 +1,3 @@
-const passport = require('passport');
 const {OAuth2Client} = require('google-auth-library');
 const constants = require('../constants.js');
 const oAuth2Client = new OAuth2Client(
@@ -15,11 +14,9 @@ const timestamp = require('unix-timestamp');
 let router = express.Router();
 
 // Use bodyParser to parse urlencoded post data.
-router.get('/signIn', (req, res) => res.render('pages/signin'));
+router.get('/signin', (req, res) => res.render('pages/signin'));
 router.post('/signin', signinPost);
 router.post('/exchangeToken', exchangeToken);
-router.get(
-  '/google-callback', passport.authenticate('google', {}), checkSpotify);
 router.get('/checkSpotify', checkSpotify);
 
 exports.router = router;

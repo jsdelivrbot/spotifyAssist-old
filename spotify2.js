@@ -4,7 +4,7 @@ const dialogFlow = require('actions-on-google').DialogflowApp;
 const WELCOME_INTENT = 'input.welcome';  // the action name from the Dialogflow intent
 
 function welcomeIntent (app) {
-  app.tell('Welcome to Spotify Assist, hooray!'); 
+  app.tell('Welcome to Spotify Assist, hooray!');
 }
 
 const actionMap = new Map();

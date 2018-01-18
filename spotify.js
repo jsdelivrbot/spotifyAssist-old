@@ -17,6 +17,15 @@ let spotifyApi = new SpotifyWebApi({
   clientSecret: clientSecret,
 });
 
+/**
+ * Takes in a string userId and initializes a new SpotifyWebApi instance for
+ * accessing Spotify Web api using the userId access and refresh tokens.
+ * @param {string} userId 
+ */
+function initSpotifyApi(userId) {
+
+}
+
 
 /**
  * Redirect to spotify login.

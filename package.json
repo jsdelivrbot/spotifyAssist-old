@@ -23,8 +23,6 @@
     "jsonwebtoken": "^8.1.0",
     "nodemon": "^1.14.11",
     "oauth2-server": "^3.0.0",
-    "passport": "^0.4.0",
-    "passport-google-oauth": "^1.0.0",
     "pg": "7.4.1",
     "spotify-web-api-node": "^2.5.0",
     "to-snake-case": "^1.0.0",
