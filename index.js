@@ -1,8 +1,6 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
-const passport = require('passport');
-const ensureLogin = require('connect-ensure-login');
 // Settings
 const PORT = process.env.PORT || 5000;
 
