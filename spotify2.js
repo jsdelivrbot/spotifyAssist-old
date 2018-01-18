@@ -18,8 +18,6 @@ function test(req, res) {
   console.log(`body: ${JSON.stringify(req.body)}`);
   const app = new dialogFlow({request: req, response: res});
   app.handleRequest(actionMap);
-
-  res.sendStatus(200);
   // let token = authorization.split(' ')[1];
   // if (authCode.verifyValidAccessToken(token)) {
   //   res.status(200).send('hi!');

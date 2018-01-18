@@ -11,8 +11,11 @@
 	<body>
 		<h1>Sign in</h1>
 		<div class="g-signin2" data-onsuccess="onSignIn"></div>
-		<a href="#" onclick="signOut();">Sign out</a>
-		<a href="/settings.html">Settings</a>
+		<ul>
+		<li><a href="#" onclick="signOut();">Sign out</a></li>
+		<li><a href="/auth/signin?client_id=google&redirect_uri=<%=redirectUrl%>"</a>Start sign-in flow</a></li>
+		<li><a href="/settings.html">Settings</a></li>
+		</ul>
 	</body>
 </html>
 

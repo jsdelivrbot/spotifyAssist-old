@@ -14,12 +14,23 @@ const timestamp = require('unix-timestamp');
 let router = express.Router();
 
 // Use bodyParser to parse urlencoded post data.
-router.get('/signin', (req, res) => res.render('pages/signin'));
+router.get('/signin', signin);
 router.post('/signin', signinPost);
+router.get('/signinResult', signinResult);
 router.post('/exchangeToken', exchangeToken);
 router.get('/checkSpotify', checkSpotify);
 
 exports.router = router;
+
+function signin(req, res) {
+  let hostName = req.hostname;
+  let protocol = req.protocol;
+  let port = constants.IS_DEV ? ':5000' : '';
+  let redirectUrl = `${protocol}://${hostName}${port}/auth/signinResult`;
+  let hrefUrl = `signin?client_id=google&redirect_uri=${redirectUrl}`;
+  res.render('pages/signin', {redirectUrl: redirectUrl});
+  // res.render('pages/signin');
+}
 
 async function signinPost(req, res) {
   // Setup Google token verifier
@@ -73,6 +84,16 @@ async function returnAuthCode(authCodeToken, state, redirectUrl, res) {
   res.redirect(redirect);
 }
 
+function signinResult(req, res) {
+  let codeToken = req.query.code;
+  let state = req.query.state;
+  res.render(
+    'pages/signin_result',
+    {
+      authCodeToken: codeToken,
+      state: state,
+    });
+}
 /**
  * Check if user has already logged into spotify, redirect if not.
  * @param {http.ServerRequest} req: req
